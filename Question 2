@@ -1,0 +1,45 @@
+
+
+Question 2:
+a) How many orders were shipped by Speedy Express in total?
+54
+
+b) What is the last name of the employee with the most orders?
+Peacock
+
+c) What product was ordered the most by customers in Germany?
+Answer: 40
+
+a - Query:
+
+SELECT orders.ShipperID, COUNT(1) FROM ORDERS orders
+JOIN SHIPPERS shippers
+ON orders.ShipperID = shippers.ShipperID
+AND shippers.ShipperName = 'Speedy Express'
+
+
+b - Query:
+
+SELECT orders.OrderID, orders.EmployeeID, employees.EmployeeID, employees.LastName, COUNT(1) AS total_order
+FROM Orders orders
+JOIN Employees employees
+ON orders.EmployeeID = employees.EmployeeID
+GROUP BY employees.EmployeeID
+ORDER BY total_order DESC
+
+c - Query: 
+
+SELECT customers.CustomerID, customers.Country, orders.OrderID, orders.CustomerID, order_details.OrderID,
+order_details.Quantity, order_details.ProductID, SUM(order_details.Quantity) AS total_volume
+FROM ORDERS orders
+JOIN CUSTOMERS customers
+ON orders.CustomerID = customers.CustomerID
+AND customers.Country = 'Germany'
+LEFT JOIN OrderDetails order_details 
+ON orders.OrderID = order_details.OrderID
+GROUP BY ProductID
+ORDER BY total_volume DESC
+
+
+
+        
